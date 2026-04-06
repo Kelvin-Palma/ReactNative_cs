@@ -1,6 +1,6 @@
 # CampusQuest: Santiago de Cali University (USC) Gymkhana
 
-This repository contains the institutional script and technical data model for a university-wide gymkhana designed for **15–20 students** divided into **teams of 3** [Conversation History]. The event focuses on exploring the **Pampalinda Citadel** (Calle 5 # 62-00) and learning about USC’s history and services.
+This repository contains the institutional script and technical data model for a university-wide gymkhana designed for **15–20 students** divided into **teams of 3**. The event focuses on exploring the **Pampalinda Citadel** (Calle 5 # 62-00) and learning about USC’s history and services.
 
 ## 1. Gymkhana Script
 
