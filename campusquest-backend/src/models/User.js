@@ -1,6 +1,3 @@
-// Colección `users`: maneja las credenciales de los participantes.
-// Las contraseñas NUNCA se guardan en texto plano; siempre se hashean con bcrypt.
-
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -10,38 +7,28 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
     trim: true,
-    lowercase: true,
   },
   password: {
     type: String,
     required: true,
-    minlength: [6, 'La contraseña debe tener al menos 6 caracteres'],
-  },
-  team_id: {
-    type: String,
-    ref: 'Team',  // Cada usuario pertenece a un equipo
+    minlength: 6,
+    select: false,
   },
   role: {
     type: String,
-    enum: ['student', 'admin'],
-    default: 'student',
+    enum: ['admin', 'player'],
+    default: 'player',
   },
 }, { timestamps: true });
 
-// Hook 'pre save': se ejecuta ANTES de guardar el documento.
-// Si la contraseña fue modificada (o es nueva), la hasheamos.
-// El factor de costo (saltRounds) de 12 es un buen balance entre
-// seguridad y rendimiento.
-UserSchema.pre('save', async function (next) {
+// Hashea contraseña solo si fue modificada
+UserSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
-  const saltRounds = 12;
-  this.password = await bcrypt.hash(this.password, saltRounds);
+  this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 
-// Método de instancia: compara la contraseña ingresada con el hash guardado.
-// bcrypt.compare() hace la comparación de forma segura.
-UserSchema.methods.comparePassword = async function (candidatePassword) {
+UserSchema.methods.comparePassword = async function(candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 

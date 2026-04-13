@@ -1,9 +1,12 @@
 const express = require('express');
-const router = express.Router();
-const { getAllLocations, getLocationById } = require('../controllers/location.controller');
 const { protect } = require('../middleware/auth.middleware');
+const {
+	getAllLocations,
+	getLocationById,
+} = require('../controllers/location.controller');
 
-// protect es un middleware que verifica el JWT antes de permitir acceso
+const router = express.Router();
+
 router.get('/', protect, getAllLocations);
 router.get('/:locId', protect, getLocationById);
 
